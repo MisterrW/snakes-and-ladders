@@ -3,7 +3,7 @@ class Player
   attr_accessor :current_position
   def initialize(name)
     @name = name
-    @current_position = 1
+    @current_position = 55
   end
 end
 
@@ -36,7 +36,9 @@ class Board
       result = roll()
       puts "You have rolled a #{result}."
       player.current_position += result
-      if player.current_position >= 64
+      if player.current_position == 64
+        win_check()
+      elsif player.current_position > 64
         player.current_position = 64 - (player.current_position-64)
       end
       puts "#{player.name}, you are on square #{player.current_position}."
@@ -78,10 +80,10 @@ class Board
           puts "Thanks for playing!"
           exit
         end
-      else
-        move()
+
       end
     end
+    move()
   end
 
   def new_game()
