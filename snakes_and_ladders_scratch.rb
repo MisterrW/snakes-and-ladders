@@ -1,13 +1,3 @@
-# counter = 0
-# while counter <= 5
-# thing = gets.chomp
-# puts "player 1's turn!"
-# thing = gets.chomp
-# puts "player 2's turn!"
-
-# counter += 1
-# end
-
 class Player
   attr_reader :name
   attr_accessor :current_position
@@ -26,6 +16,11 @@ class Board
       48 => 32,
       56 => 2,
       23 => 14,
+      63 => 18,
+      12 => 37,
+      58 => 1,
+      19 => 25,
+      32 => 17
     }
   end
 
@@ -39,12 +34,12 @@ class Board
       puts "#{player.name}'s turn! Press enter to roll!"
       gets.chomp
       result = roll()
-      puts "You have rolled a #{result}"
+      puts "You have rolled a #{result}."
       player.current_position += result
       if player.current_position >= 64
         player.current_position = 64 - (player.current_position-64)
       end
-      puts "#{player.name}, you are on square #{player.current_position}"
+      puts "#{player.name}, you are on square #{player.current_position}."
       @snakes_ladders_hash.each do |key, value|
         if player.current_position == key
           puts "Uh-oh! You've hit a snake or a ladder. Up or down...?"
@@ -54,8 +49,11 @@ class Board
           player.current_position = new_position
           puts "Your new position is #{player.current_position}"
         end
+        puts ""
       end
-    win_check()
+
+    end
+          win_check()
   end
 
   def win_check()
@@ -63,7 +61,15 @@ class Board
       if player.current_position == 64
         puts "#{player.name} has won!"
         @players = []
-        new_game()
+        puts "play again? y/n"
+        choice = gets.chomp().downcase
+        if choice == "y" || choice == "yes"
+          puts "Great!"
+          new_game()
+        else
+          puts "Thanks for playing!"
+          exit
+        end
       else
         move()
       end
@@ -71,11 +77,11 @@ class Board
   end
 
   def new_game()
-    puts "how many players?"
+    puts "How many players?"
     player_num = gets.chomp.to_i
     @players = Array.new(player_num, "x")
     @players.each_with_index do |x, y|
-      puts "set up player. Name?"
+      puts "Set up player. Name?"
       name = gets.chomp
       @players[y] = Player.new(name)
     end
