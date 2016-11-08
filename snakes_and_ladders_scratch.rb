@@ -43,7 +43,15 @@ class Board
       @snakes_ladders_hash.each do |key, value|
         if player.current_position == key
           puts "Uh-oh! You've hit a snake or a ladder. Up or down...?"
+          gets.chomp()
           new_position = value
+          if new_position > player.current_position
+            puts "Whoop whoop! Ladder!"
+          elsif new_position < player.current_position
+            puts "Oh no! It's a snaaaaaaake!"
+          else
+            puts "That's odd. You seem to have broken the game! Oh well, play on!"
+          end
           change = new_position - key
           puts "You have moved by #{change} places"
           player.current_position = new_position
